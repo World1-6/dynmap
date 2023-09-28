@@ -1,3 +1,21 @@
+/*
+ * Copyright 2023 Andrew121410
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * [5](http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Modified by Andrew121410 on 28 Sep 2023
+// Added try and catch to getBlockSkyLight and getBlockEmittedLight as seen in GenericMapChunkCache and AbstractMapChunkCache
 package org.dynmap.bukkit.helper;
 
 import java.util.ArrayList;
@@ -50,11 +68,19 @@ public class MapChunkCacheClassic extends AbstractMapChunkCache {
     	}
 		@Override
         public final int getBlockSkyLight(int x, int y, int z) {
-        	return ss.getBlockSkyLight(x & 0xF, y, z & 0xF);
+			try {
+				return ss.getBlockSkyLight(x & 0xF, y, z & 0xF);
+			} catch (ArrayIndexOutOfBoundsException aioobx) {
+				return 15;
+			}
         }
 		@Override
         public final int getBlockEmittedLight(int x, int y, int z) {
-        	return ss.getBlockEmittedLight(x & 0xF, y, z & 0xF);
+			try {
+				return ss.getBlockEmittedLight(x & 0xF, y, z & 0xF);
+			} catch (ArrayIndexOutOfBoundsException aioobx) {
+				return 0;
+			}
         }
 		@Override
         public final int getHighestBlockYAt(int x, int z) {
